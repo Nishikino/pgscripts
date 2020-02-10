@@ -56,3 +56,43 @@ startscript() {
                 --config=/home15/maki/plexguide/rclone.conf \
                 --log-file=/home15/maki/plexguide/logs/pgblitz.log \
                 --log-level=INFO --stats=5s --stats-file-name-length=0 \
+                --max-size=300G \
+                --tpslimit=10 \
+                --checkers="$vfs_c" \
+                --transfers="$vfs_t" \
+                --no-traverse \
+                --fast-list \
+                --max-transfer "$vfs_mt" \
+                --bwlimit="$bwlimit" \
+                --drive-chunk-size="$vfs_dcs" \
+                --user-agent="$useragent" \
+                --exclude-from="/home15/maki/plexguide/transport.exclude" \
+                --exclude="**_HIDDEN~" --exclude=".unionfs/**" \
+                --exclude="**partial~" --exclude=".unionfs-fuse/**" \
+                --exclude=".fuse_hidden**" --exclude="**.grab/**" \
+                --exclude="**sabnzbd**" --exclude="**nzbget**" \
+                --exclude="**qbittorrent**" --exclude="**rutorrent**" \
+                --exclude="**deluge**" --exclude="**transmission**" \
+                --exclude="**jdownloader**" --exclude="**makemkv**" \
+                --exclude="**handbrake**" --exclude="**bazarr**" \
+                --exclude="**ignore**" --exclude="**inProgress**"
+
+            echo "Upload has finished." >>/home15/maki/plexguide/logs/pgblitz.log
+        else
+            echo "No files in $hdpath/move to upload." >>/home15/maki/plexguide/logs/pgblitz.log
+        fi
+
+        echo "---Completed cycle $cyclecount: $(date "+%Y-%m-%d %H:%M:%S")---" >>/home15/maki/plexguide/logs/pgblitz.log
+        echo "$(tail -n 200 /home15/maki/plexguide/logs/pgblitz.log)" >/home15/maki/plexguide/logs/pgblitz.log
+        #sed -i -e "/Duplicate directory found in destination/d" /home15/maki/plexguide/logs/pgblitz.log
+        sleep 30
+
+        cloneclean
+
+    done </home15/maki/plexguide/.blitzfinal
+}
+
+# keeps the function in a loop
+cheeseballs=0
+while [[ "$cheeseballs" == "0" ]]; do startscript; done
+
