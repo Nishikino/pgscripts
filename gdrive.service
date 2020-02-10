@@ -1,0 +1,36 @@
+#!/bin/bash
+#
+# Title:      gdrive:PGBlitz (Reference Title File)
+# Authors:    Admin9705, Deiteq, and many PGBlitz Contributors
+# URL:        https://pgblitz.com - http://github.pgblitz.com
+# GNU:        General Public License v3.0
+################################################################################
+
+[Unit]
+Description=gdrive Daemon
+After=multi-user.target
+
+[Service]
+Type=notify
+EnvironmentFile=/home15/maki/plexguide/rclone.env
+ExecStart=/home15/maki/bin/rclone mount gdrive: /home15/maki/mnt/gdrive \
+--config=/home15/maki/plexguide/rclone.conf \
+--log-file=/home15/maki/plexguide/logs/rclone-gdrive.log \
+--log-level="${vfs_ll}" \
+--umask=002 \
+--allow-other \
+--timeout=1h \
+--tpslimit=10 \
+--user-agent="${uagent}" \
+--dir-cache-time="${vfs_dct}" \
+--vfs-cache-mode="${vfs_cm}" \
+--vfs-cache-max-age="${vfs_cma}" \
+--vfs-cache-max-size="${vfs_cms}" \
+--vfs-read-chunk-size-limit="${vfs_rcsl}" \
+--vfs-read-chunk-size="${vfs_rcs}" \
+--buffer-size="${vfs_bs}"
+ExecStop=/bin/fusermount -uz /home15/maki/mnt/gdrive > /dev/null
+TimeoutSec=60
+
+[Install]
+WantedBy=multi-user.target
