@@ -1,0 +1,15 @@
+[Unit]
+Description = MergerFS Mount
+After=rclone-vfs.service
+RequiresMountsFor=/home15/maki/mnt/move
+RequiresMountsFor=/home15/maki/mnt/tcrypt
+
+[Service]
+Type=forking
+KillMode=none
+ExecStart=/homexx/yyyyy/bin/mergerfs /home15/maki/mnt/move:/home15/maki/mnt/downloads:/home15/maki/mnt/tcrypt /home15/maki/mnt/unionfs -o rw,async_read=false,use_ino,allow_other,func.getattr=newest,category.action=all,minfreespace=0,category.create=ff,cache.files=partial,dropcacheonclose=true,threads=12
+ExecStop=/bin/fusermount -uz /home15/maki/mnt/unionfs/
+Restart=on-failure
+
+[Install]
+WantedBy=default.target
