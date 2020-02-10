@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Title:      gdrive:PGBlitz (Reference Title File)
+# Title:      PGBlitz (Reference Title File)
 # Authors:    Admin9705, Deiteq, and many PGBlitz Contributors
 # URL:        https://pgblitz.com - http://github.pgblitz.com
 # GNU:        General Public License v3.0
@@ -17,7 +17,6 @@ ExecStart=/home15/maki/bin/rclone mount gdrive: /home15/maki/mnt/gdrive \
 --config=/home15/maki/plexguide/rclone.conf \
 --log-file=/home15/maki/plexguide/logs/rclone-gdrive.log \
 --log-level="${vfs_ll}" \
---umask=002 \
 --allow-other \
 --timeout=1h \
 --tpslimit=10 \
